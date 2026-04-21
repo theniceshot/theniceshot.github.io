@@ -938,13 +938,14 @@
       `• ${item.nombre} (${item.marca}) · ${item.ml} — $${item.precio.toLocaleString("es-AR")}`
     ).join("\n");
     const msg = [
-      "🌟 *NUEVO PEDIDO — THE NICE SHOT*", "",
-      `👤 *Cliente:* ${nombre} ${apellido}`,
-      `📍 *Ciudad:* ${ciudad}`,
-      `🏠 *Dirección:* ${direccion}`,
-      `📱 *WhatsApp:* ${wpp}`, "",
-      "🛒 *Productos:*", lineas, "",
-      `💰 *Total: $${total.toLocaleString("es-AR")}*`,
+      "*NUEVO PEDIDO — THE NICE SHOT*", "",
+      `*Cliente:* ${nombre} ${apellido}`,
+      `*Ciudad:* ${ciudad}`,
+      `*Dirección:* ${direccion}`,
+      `*Entre calles:* ${entreCalles}`,
+      `*WhatsApp:* ${wpp}`, "",
+      "*Productos:*", lineas, "",
+      `*Total: $${total.toLocaleString("es-AR")}*`,
     ].join("\n");
     window.open(`https://wa.me/${MAKI_WPP}?text=${encodeURIComponent(msg)}`, "_blank");
   }
