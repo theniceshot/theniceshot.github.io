@@ -3,583 +3,420 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Nice Shot — Decants & Perfumes</title>
+  <title>The Nice Shot — Decants &amp; Perfumes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #f0f0f0; font-family: 'Inter', sans-serif; min-height: 100vh; }
 
-    body {
-      background: #0a0a0a;
-      color: #f0f0f0;
-      font-family: 'Segoe UI', sans-serif;
-      min-height: 100vh;
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #1a1a1a;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 20px;
     }
-
-    /* HERO */
-    .hero {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 40px 20px 20px;
-      background: radial-gradient(ellipse at top, #1a1a1a, #0a0a0a);
-    }
-
-    .hero-logo {
-      width: 280px;
-      height: 280px;
-      margin-bottom: 16px;
-    }
-
-    .hero-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    .hero-tagline {
-      font-size: 0.9rem;
-      color: #c9a84c;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .hero-title {
-      font-size: 1.1rem;
-      color: #888;
-      text-align: center;
-    }
-
-    .ig-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #c9a84c;
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      margin-top: 14px;
-      padding: 8px 18px;
-      border: 1px solid #c9a84c33;
-      border-radius: 50px;
+    .nav-logo img { height: 44px; object-fit: contain; }
+    .nav-ig {
+      display: flex; align-items: center; gap: 6px;
+      color: #c9a84c; text-decoration: none; font-size: 0.8rem;
+      letter-spacing: 2px; padding: 6px 14px;
+      border: 1px solid #c9a84c44; border-radius: 50px;
       transition: background 0.2s;
     }
+    .nav-ig:hover { background: #c9a84c22; }
 
-    .ig-link:hover { background: #c9a84c22; }
-
-    /* CATALOG */
-    .catalog-section {
-      padding: 30px 16px;
-      max-width: 1200px;
-      margin: 0 auto;
+    /* CAROUSEL HERO */
+    .carousel { position: relative; width: 100%; overflow: hidden; background: #0a0a0a; }
+    .carousel-track { display: flex; transition: transform 0.55s ease; }
+    .carousel-slide {
+      min-width: 100%; position: relative;
+      height: 480px; overflow: hidden;
     }
-
-    .catalog-section h2 {
-      text-align: center;
-      font-size: 1rem;
-      letter-spacing: 4px;
-      color: #c9a84c;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-      border-bottom: 1px solid #2a2a2a;
-      padding-bottom: 12px;
+    .carousel-slide img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(0.55);
     }
+    .carousel-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 20px; text-align: center;
+    }
+    .carousel-tag {
+      font-size: 0.7rem; letter-spacing: 4px; color: #c9a84c;
+      text-transform: uppercase; margin-bottom: 10px;
+      border: 1px solid #c9a84c66; padding: 4px 14px; border-radius: 50px;
+    }
+    .carousel-title {
+      font-size: 2.2rem; font-weight: 800; color: #fff;
+      line-height: 1.15; max-width: 500px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    }
+    .carousel-sub {
+      font-size: 0.95rem; color: #ccc; margin-top: 10px; max-width: 360px;
+    }
+    .carousel-cta {
+      margin-top: 22px; background: #c9a84c; color: #000;
+      border: none; padding: 12px 28px; border-radius: 8px;
+      font-weight: 700; font-size: 0.9rem; letter-spacing: 1px;
+      cursor: pointer; text-transform: uppercase;
+      transition: background 0.2s;
+    }
+    .carousel-cta:hover { background: #e0bb5e; }
+    .carousel-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      background: rgba(0,0,0,0.55); border: 1px solid #333;
+      color: #c9a84c; width: 40px; height: 40px;
+      border-radius: 50%; cursor: pointer; font-size: 1.2rem;
+      display: flex; align-items: center; justify-content: center;
+      z-index: 5; transition: background 0.2s;
+    }
+    .carousel-arrow:hover { background: rgba(201,168,76,0.25); }
+    .carousel-prev { left: 14px; }
+    .carousel-next { right: 14px; }
+    .carousel-dots {
+      position: absolute; bottom: 14px; width: 100%;
+      display: flex; justify-content: center; gap: 7px;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #555; cursor: pointer; transition: background 0.2s;
+    }
+    .dot.active { background: #c9a84c; }
 
+    /* SECCIONES GENERALES */
+    section { padding: 56px 20px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.7rem; letter-spacing: 4px; color: #c9a84c;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 1.6rem; font-weight: 800; color: #fff;
+      margin-bottom: 14px;
+    }
+    .section-subtitle {
+      color: #888; font-size: 0.95rem; line-height: 1.6;
+      max-width: 560px;
+    }
+    .section-header { margin-bottom: 36px; }
+
+    /* CATEGORÍAS */
+    .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .cat-card {
+      background: #111; border: 1px solid #222; border-radius: 14px;
+      padding: 28px 20px; text-align: center; cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .cat-card:hover { border-color: #c9a84c; transform: translateY(-3px); }
+    .cat-icon { font-size: 2.4rem; margin-bottom: 12px; }
+    .cat-name {
+      font-size: 1rem; font-weight: 700; color: #fff;
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;
+    }
+    .cat-count { font-size: 0.8rem; color: #888; }
+
+    /* COMBOS */
+    .combos-section { background: #080808; }
+    .combos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .combo-card {
+      background: #111; border: 1px solid #c9a84c33;
+      border-radius: 14px; padding: 28px 22px;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .combo-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top, #c9a84c08, transparent 70%);
+      pointer-events: none;
+    }
+    .combo-badge {
+      display: inline-block; background: #c9a84c; color: #000;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 50px;
+      margin-bottom: 14px;
+    }
+    .combo-name {
+      font-size: 1.1rem; font-weight: 800; color: #fff;
+      margin-bottom: 6px;
+    }
+    .combo-desc { font-size: 0.82rem; color: #888; margin-bottom: 20px; line-height: 1.5; }
+    .combo-price {
+      font-size: 1.5rem; font-weight: 800; color: #c9a84c;
+      margin-bottom: 6px;
+    }
+    .combo-price-label { font-size: 0.75rem; color: #666; margin-bottom: 20px; }
+    .combo-btn {
+      display: block; background: transparent; border: 1px solid #c9a84c;
+      color: #c9a84c; padding: 10px 20px; border-radius: 8px;
+      font-weight: 700; font-size: 0.82rem; letter-spacing: 1px;
+      cursor: pointer; text-transform: uppercase; text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .combo-btn:hover { background: #c9a84c; color: #000; }
+
+    /* CATÁLOGO */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;
+    }
+    .filter-btn {
+      background: #111; border: 1px solid #333; color: #888;
+      padding: 7px 18px; border-radius: 50px; cursor: pointer;
+      font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: #c9a84c; border-color: #c9a84c; color: #000; font-weight: 700;
+    }
     .catalog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 20px;
     }
-
     .product-card {
-      background: #111;
-      border: 1px solid #222;
-      border-radius: 12px;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      background: #111; border: 1px solid #222; border-radius: 12px;
+      overflow: hidden; transition: border-color 0.2s, transform 0.2s;
     }
-
     .product-card:hover { border-color: #c9a84c; transform: translateY(-2px); }
-
     .product-img-wrap {
-      width: 100%;
-      height: 300px;
-      background: #1a1a1a;
-      overflow: hidden;
-      cursor: pointer;
-      position: relative;
+      width: 100%; height: 300px; background: #1a1a1a;
+      overflow: hidden; cursor: pointer; position: relative;
     }
-
     .product-img-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 12px;
-      transition: transform 0.3s;
+      width: 100%; height: 100%; object-fit: contain;
+      padding: 12px; transition: transform 0.3s;
     }
-
     .product-img-wrap:hover img { transform: scale(1.05); }
-
     .product-img-wrap .lupa {
-      position: absolute;
-      bottom: 8px;
-      right: 8px;
-      background: rgba(201,168,76,0.85);
-      color: #000;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      opacity: 0;
-      transition: opacity 0.2s;
+      position: absolute; bottom: 8px; right: 8px;
+      background: rgba(201,168,76,0.85); color: #000; border-radius: 50%;
+      width: 30px; height: 30px; display: flex; align-items: center;
+      justify-content: center; font-size: 0.85rem;
+      opacity: 0; transition: opacity 0.2s;
     }
-
     .product-img-wrap:hover .lupa { opacity: 1; }
-
     .product-info { padding: 14px; }
-
     .product-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      font-size: 0.95rem; font-weight: 700; color: #fff;
+      margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;
     }
-
     .product-brand {
-      font-size: 0.75rem;
-      color: #c9a84c;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
+      font-size: 0.75rem; color: #c9a84c; margin-bottom: 12px;
+      text-transform: uppercase; letter-spacing: 2px;
     }
-
-    .ml-selector {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
+    .ml-selector { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     .ml-btn {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: #ccc;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: all 0.15s;
+      background: #1a1a1a; border: 1px solid #333; color: #ccc;
+      padding: 6px 12px; border-radius: 6px; cursor: pointer;
+      font-size: 0.8rem; transition: all 0.15s;
     }
-
     .ml-btn:hover, .ml-btn.selected {
-      background: #c9a84c;
-      border-color: #c9a84c;
-      color: #000;
-      font-weight: 700;
+      background: #c9a84c; border-color: #c9a84c; color: #000; font-weight: 700;
     }
-
     .product-price {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #c9a84c;
-      margin-bottom: 12px;
+      font-size: 1.1rem; font-weight: 700; color: #c9a84c; margin-bottom: 12px;
     }
-
     .add-btn {
-      width: 100%;
-      background: #c9a84c;
-      color: #000;
-      border: none;
-      padding: 10px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
+      width: 100%; background: #c9a84c; color: #000; border: none;
+      padding: 10px; border-radius: 8px; font-weight: 700; cursor: pointer;
+      font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase;
       transition: background 0.15s;
     }
-
     .add-btn:hover { background: #e0bb5e; }
     .add-btn:active { transform: scale(0.98); }
 
+    /* TESTIMONIOS */
+    .testimonios-section { background: #080808; }
+    .testimonios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .testi-card {
+      background: #111; border: 1px solid #1e1e1e; border-radius: 14px; padding: 24px;
+    }
+    .testi-stars { color: #c9a84c; font-size: 0.9rem; margin-bottom: 12px; }
+    .testi-text { font-size: 0.9rem; color: #ccc; line-height: 1.65; margin-bottom: 16px; font-style: italic; }
+    .testi-autor { font-size: 0.8rem; font-weight: 700; color: #fff; letter-spacing: 1px; }
+    .testi-detail { font-size: 0.75rem; color: #666; margin-top: 2px; }
+
+    /* DECANTS */
+    .decants-section { background: #0a0a0a; }
+    .decants-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+    .decants-visual {
+      background: #111; border: 1px solid #222; border-radius: 16px;
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 5rem;
+    }
+    .decants-text p { color: #aaa; line-height: 1.7; font-size: 0.95rem; margin-bottom: 16px; }
+    .decants-list { list-style: none; }
+    .decants-list li {
+      padding: 8px 0; border-bottom: 1px solid #1a1a1a;
+      font-size: 0.88rem; color: #ccc; display: flex; gap: 10px;
+    }
+    .decants-list li::before { content: '✦'; color: #c9a84c; font-size: 0.7rem; margin-top: 2px; flex-shrink: 0; }
+
+    /* PROCESO */
+    .proceso-section { background: #080808; }
+    .proceso-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .paso {
+      background: #111; border: 1px solid #1e1e1e; border-radius: 14px;
+      padding: 28px 22px; text-align: center;
+    }
+    .paso-num {
+      font-size: 2rem; font-weight: 900; color: #c9a84c22;
+      margin-bottom: 8px;
+    }
+    .paso-icon { font-size: 2rem; margin-bottom: 14px; }
+    .paso-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .paso-desc { font-size: 0.84rem; color: #888; line-height: 1.6; }
+
+    /* BENEFICIOS */
+    .beneficios-section { background: #0a0a0a; }
+    .beneficios-list { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .beneficio-item {
+      background: #111; border: 1px solid #1e1e1e; border-radius: 12px;
+      padding: 22px 20px; display: flex; gap: 16px; align-items: flex-start;
+    }
+    .beneficio-check {
+      background: #c9a84c22; color: #c9a84c; width: 32px; height: 32px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; flex-shrink: 0; margin-top: 2px;
+    }
+    .beneficio-title { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .beneficio-desc { font-size: 0.82rem; color: #888; line-height: 1.5; }
+
+    /* CTA FINAL */
+    .cta-section {
+      background: linear-gradient(135deg, #0f0f0f, #1a1208);
+      border-top: 1px solid #c9a84c22; border-bottom: 1px solid #c9a84c22;
+      text-align: center; padding: 70px 20px;
+    }
+    .cta-title {
+      font-size: 2rem; font-weight: 800; color: #fff; margin-bottom: 12px;
+    }
+    .cta-sub {
+      color: #aaa; font-size: 1rem; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto;
+    }
+    .cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn-primary {
+      background: #c9a84c; color: #000; border: none; padding: 14px 30px;
+      border-radius: 10px; font-weight: 800; font-size: 0.95rem;
+      cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .cta-btn-primary:hover { background: #e0bb5e; }
+    .cta-btn-secondary {
+      background: transparent; color: #c9a84c;
+      border: 1px solid #c9a84c; padding: 14px 30px;
+      border-radius: 10px; font-weight: 700; font-size: 0.95rem;
+      cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+      text-decoration: none; transition: background 0.2s;
+    }
+    .cta-btn-secondary:hover { background: #c9a84c22; }
+
     /* CART FAB */
     .cart-fab {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #c9a84c;
-      color: #000;
-      border: none;
-      border-radius: 50px;
-      padding: 14px 22px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.9rem;
-      box-shadow: 0 4px 20px rgba(201,168,76,0.4);
-      z-index: 100;
-      display: none;
-      align-items: center;
-      gap: 8px;
+      position: fixed; bottom: 24px; right: 24px; background: #c9a84c;
+      color: #000; border: none; border-radius: 50px; padding: 14px 22px;
+      font-weight: 700; cursor: pointer; font-size: 0.9rem;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.4); z-index: 100;
+      display: none; align-items: center; gap: 8px;
     }
-
     .cart-fab.visible { display: flex; }
-
     .cart-count {
-      background: #000;
-      color: #c9a84c;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 900;
+      background: #000; color: #c9a84c; border-radius: 50%;
+      width: 22px; height: 22px; display: flex; align-items: center;
+      justify-content: center; font-size: 0.75rem; font-weight: 900;
     }
 
     /* WPP FAB */
     .wpp-fab {
-      position: fixed;
-      bottom: 24px;
-      left: 24px;
-      background: #25D366;
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
-      z-index: 100;
+      position: fixed; bottom: 24px; left: 24px; background: #25D366;
+      border-radius: 50%; width: 56px; height: 56px;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4); z-index: 100;
       transition: transform 0.15s;
     }
-
     .wpp-fab:hover { transform: scale(1.1); }
 
     /* MODALES */
     .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 200;
-      align-items: flex-end;
-      justify-content: center;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      z-index: 200; align-items: flex-end; justify-content: center;
     }
-
     .modal-overlay.open { display: flex; }
-
     .modal {
-      background: #111;
-      border-top: 2px solid #c9a84c;
-      border-radius: 20px 20px 0 0;
-      width: 100%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 24px;
+      background: #111; border-top: 2px solid #c9a84c;
+      border-radius: 20px 20px 0 0; width: 100%; max-width: 600px;
+      max-height: 90vh; overflow-y: auto; padding: 24px;
     }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .modal-title {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #c9a84c;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
-    .close-btn {
-      background: #222;
-      border: none;
-      color: #fff;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-title { font-size: 1rem; font-weight: 700; color: #c9a84c; letter-spacing: 2px; text-transform: uppercase; }
+    .close-btn { background: #222; border: none; color: #fff; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; }
 
     /* MODAL DETALLE */
     .detail-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      z-index: 300;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+      z-index: 300; align-items: center; justify-content: center; padding: 20px;
     }
-
     .detail-overlay.open { display: flex; }
-
     .detail-modal {
-      background: #111;
-      border: 1px solid #c9a84c44;
-      border-radius: 16px;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
+      background: #111; border: 1px solid #c9a84c44; border-radius: 16px;
+      width: 100%; max-width: 500px; max-height: 90vh;
+      overflow-y: auto; position: relative;
     }
-
-    .detail-img {
-      width: 100%;
-      height: 280px;
-      object-fit: contain;
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 16px 16px 0 0;
-    }
-
+    .detail-img { width: 100%; height: 280px; object-fit: contain; background: #1a1a1a; padding: 20px; border-radius: 16px 16px 0 0; }
     .detail-body { padding: 20px; }
-
-    .detail-name {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .detail-brand {
-      font-size: 0.8rem;
-      color: #c9a84c;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin: 4px 0 16px;
-    }
-
-    .detail-desc {
-      font-size: 0.9rem;
-      color: #aaa;
-      line-height: 1.7;
-      margin-bottom: 20px;
-      border-left: 2px solid #c9a84c44;
-      padding-left: 14px;
-    }
-
-    .detail-notas {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .nota-tag {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: #c9a84c;
-      font-size: 0.75rem;
-      padding: 4px 12px;
-      border-radius: 50px;
-      letter-spacing: 1px;
-    }
-
-    .detail-precios {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .detail-precio-item {
-      flex: 1;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.15s;
-    }
-
-    .detail-precio-item:hover, .detail-precio-item.selected {
-      border-color: #c9a84c;
-      background: #c9a84c11;
-    }
-
-    .detail-precio-ml {
-      font-size: 0.8rem;
-      color: #888;
-      margin-bottom: 4px;
-    }
-
-    .detail-precio-val {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #c9a84c;
-    }
-
-    .detail-add-btn {
-      width: 100%;
-      background: #c9a84c;
-      color: #000;
-      border: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
+    .detail-name { font-size: 1.3rem; font-weight: 800; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+    .detail-brand { font-size: 0.8rem; color: #c9a84c; letter-spacing: 3px; text-transform: uppercase; margin: 4px 0 16px; }
+    .detail-desc { font-size: 0.9rem; color: #aaa; line-height: 1.7; margin-bottom: 20px; border-left: 2px solid #c9a84c44; padding-left: 14px; }
+    .detail-notas { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .nota-tag { background: #1a1a1a; border: 1px solid #333; color: #c9a84c; font-size: 0.75rem; padding: 4px 12px; border-radius: 50px; letter-spacing: 1px; }
+    .detail-precios { display: flex; gap: 10px; margin-bottom: 20px; }
+    .detail-precio-item { flex: 1; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: border-color 0.15s; }
+    .detail-precio-item:hover, .detail-precio-item.selected { border-color: #c9a84c; background: #c9a84c11; }
+    .detail-precio-ml { font-size: 0.8rem; color: #888; margin-bottom: 4px; }
+    .detail-precio-val { font-size: 1rem; font-weight: 700; color: #c9a84c; }
+    .detail-add-btn { width: 100%; background: #c9a84c; color: #000; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; letter-spacing: 1px; text-transform: uppercase; }
     .detail-add-btn:hover { background: #e0bb5e; }
-
-    .detail-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0,0,0,0.6);
-      border: none;
-      color: #fff;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1rem;
-      z-index: 1;
-    }
+    .detail-close { position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); border: none; color: #fff; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem; z-index: 1; }
 
     /* CART ITEMS */
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 12px 0;
-      border-bottom: 1px solid #222;
-      gap: 12px;
-    }
-
+    .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #222; gap: 12px; }
     .cart-item-info { flex: 1; }
-
-    .cart-item-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .cart-item-detail {
-      font-size: 0.75rem;
-      color: #888;
-      margin-top: 2px;
-    }
-
-    .cart-item-price {
-      font-weight: 700;
-      color: #c9a84c;
-      white-space: nowrap;
-    }
-
-    .cart-item-remove {
-      background: none;
-      border: 1px solid #333;
-      color: #666;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
+    .cart-item-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
+    .cart-item-detail { font-size: 0.75rem; color: #888; margin-top: 2px; }
+    .cart-item-price { font-weight: 700; color: #c9a84c; white-space: nowrap; }
+    .cart-item-remove { background: none; border: 1px solid #333; color: #666; width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; }
     .cart-item-remove:hover { border-color: #ff4444; color: #ff4444; }
-
-    .cart-total {
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 0 20px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #fff;
-    }
-
+    .cart-total { display: flex; justify-content: space-between; padding: 16px 0 20px; font-size: 1.1rem; font-weight: 700; color: #fff; }
     .cart-total span:last-child { color: #c9a84c; }
 
     /* FORMULARIO */
-    .form-section {
-      border-top: 1px solid #222;
-      padding-top: 20px;
-    }
-
-    .form-section h3 {
-      font-size: 0.85rem;
-      letter-spacing: 2px;
-      color: #c9a84c;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-
+    .form-section { border-top: 1px solid #222; padding-top: 20px; }
+    .form-section h3 { font-size: 0.85rem; letter-spacing: 2px; color: #c9a84c; text-transform: uppercase; margin-bottom: 16px; }
     .form-group { margin-bottom: 14px; }
-
-    .form-group label {
-      display: block;
-      font-size: 0.75rem;
-      color: #888;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-
-    .form-group input {
-      width: 100%;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.15s;
-    }
-
+    .form-group label { display: block; font-size: 0.75rem; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+    .form-group input { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.9rem; outline: none; transition: border-color 0.15s; }
     .form-group input:focus { border-color: #c9a84c; }
-
-    .send-btn {
-      width: 100%;
-      background: #25D366;
-      color: #fff;
-      border: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.95rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
+    .send-btn { width: 100%; background: #25D366; color: #fff; border: none; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 0.95rem; letter-spacing: 1px; text-transform: uppercase; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .send-btn:hover { background: #1fb858; }
 
-    footer {
-      text-align: center;
-      padding: 30px 20px;
-      color: #444;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-
+    footer { text-align: center; padding: 30px 20px; color: #444; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
     footer a { color: #c9a84c; text-decoration: none; }
 
+    @media (max-width: 768px) {
+      .decants-grid { grid-template-columns: 1fr; }
+      .proceso-steps { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .combos-grid { grid-template-columns: 1fr; }
+      .beneficios-list { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+      .carousel-title { font-size: 1.5rem; }
+      .carousel-slide { height: 360px; }
+    }
     @media (max-width: 480px) {
       .catalog-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
       .product-info { padding: 10px; }
@@ -590,24 +427,251 @@
 </head>
 <body>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-logo">
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
     <img src="IMAGENES/logo j.jpg" alt="The Nice Shot" />
   </div>
-  <p class="hero-tagline">Decants &amp; Perfumes Originales</p>
-  <p class="hero-title">Fragancias de diseñador · 3ML · 5ML · 10ML</p>
-  <a href="https://instagram.com/theniceshot1" target="_blank" class="ig-link">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="#c9a84c"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+  <a href="https://instagram.com/theniceshot1" target="_blank" class="nav-ig">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#c9a84c"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
     @theniceshot1
   </a>
+</nav>
+
+<!-- CAROUSEL HERO -->
+<div class="carousel" id="carousel">
+  <div class="carousel-track" id="carouselTrack">
+    <div class="carousel-slide">
+      <img src="PERFUMES/davidoff-cool-water-parfum.jpg" alt="Slide 1" />
+      <div class="carousel-overlay">
+        <div class="carousel-tag">Colección exclusiva</div>
+        <h1 class="carousel-title">Fragancias de diseñador en tu medida</h1>
+        <p class="carousel-sub">Decants originales de 3ML, 5ML y 10ML</p>
+        <button class="carousel-cta" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver catálogo</button>
+      </div>
+    </div>
+    <div class="carousel-slide">
+      <img src="PERFUMES/cuba-royal.jpg -.jpg" alt="Slide 2" />
+      <div class="carousel-overlay">
+        <div class="carousel-tag">Probá antes de comprar full</div>
+        <h1 class="carousel-title">El lujo de oler increíble sin gastar de más</h1>
+        <p class="carousel-sub">Perfumes 100% originales, fraccionados con cuidado</p>
+        <button class="carousel-cta" onclick="document.getElementById('combos').scrollIntoView({behavior:'smooth'})">Ver combos</button>
+      </div>
+    </div>
+    <div class="carousel-slide">
+      <img src="PERFUMES/fd696a7ce53d39993c19bbcd273f928e.jpg" alt="Slide 3" />
+      <div class="carousel-overlay">
+        <div class="carousel-tag">Envíos a todo el país</div>
+        <h1 class="carousel-title">Tu fragancia favorita, llegando a tu puerta</h1>
+        <p class="carousel-sub">Pedí por WhatsApp, sin vueltas</p>
+        <a href="https://wa.me/5492236247791?text=Hola%2C%20quiero%20consultar%20sobre%20los%20decants%20%F0%9F%8C%B8" target="_blank" class="carousel-cta">Consultar por WA</a>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-arrow carousel-prev" onclick="prev()">&#8249;</button>
+  <button class="carousel-arrow carousel-next" onclick="next()">&#8250;</button>
+  <div class="carousel-dots" id="carouselDots"></div>
 </div>
 
+<!-- CATEGORÍAS -->
+<section>
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-label">Explorá por género</div>
+      <div class="section-title">¿Para quién es?</div>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="filterBy('hombre', this)">
+        <div class="cat-icon">🧔</div>
+        <div class="cat-name">Hombres</div>
+        <div class="cat-count">Fresco, amaderado, especiado</div>
+      </div>
+      <div class="cat-card" onclick="filterBy('mujer', this)">
+        <div class="cat-icon">👩</div>
+        <div class="cat-name">Mujeres</div>
+        <div class="cat-count">Floral, frutal, oriental</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBOS -->
+<section class="combos-section" id="combos">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-label">Ofertas especiales</div>
+      <div class="section-title">Combos armados</div>
+      <p class="section-subtitle">Elegís 3 fragancias diferentes y te armamos el kit. Ideal para regalar o para descubrir.</p>
+    </div>
+    <div class="combos-grid">
+      <div class="combo-card">
+        <div class="combo-badge">Starter Kit</div>
+        <div class="combo-name">Combo 3×5ML</div>
+        <div class="combo-desc">Elegís 3 fragancias en 5ML cada una. Perfecto para descubrir nuevos aromas o regalar.</div>
+        <div class="combo-price">$40.000 ARS</div>
+        <div class="combo-price-label">3 perfumes · 5ML c/u</div>
+        <a href="https://wa.me/5492236247791?text=Hola%2C%20me%20interesa%20el%20Combo%203x5ML%20por%2040.000%20ARS%20%F0%9F%8C%B8" target="_blank" class="combo-btn">Pedir este combo</a>
+      </div>
+      <div class="combo-card">
+        <div class="combo-badge">Premium</div>
+        <div class="combo-name">Combo 3×10ML</div>
+        <div class="combo-desc">Elegís 3 fragancias en 10ML cada una. Más duración, más disfrute. El favorito de los que ya saben.</div>
+        <div class="combo-price">$80.000 ARS</div>
+        <div class="combo-price-label">3 perfumes · 10ML c/u</div>
+        <a href="https://wa.me/5492236247791?text=Hola%2C%20me%20interesa%20el%20Combo%203x10ML%20por%2080.000%20ARS%20%F0%9F%8C%B8" target="_blank" class="combo-btn">Pedir este combo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CATÁLOGO -->
-<div class="catalog-section">
-  <h2>Catálogo</h2>
-  <div class="catalog-grid" id="catalogGrid"></div>
-</div>
+<section id="catalogo">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-label">Todos los aromas</div>
+      <div class="section-title">Catálogo</div>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" onclick="filterBy('todos', this)">Todos</button>
+      <button class="filter-btn" onclick="filterBy('hombre', this)">Hombre</button>
+      <button class="filter-btn" onclick="filterBy('mujer', this)">Mujer</button>
+      <button class="filter-btn" onclick="filterBy('unisex', this)">Unisex</button>
+    </div>
+    <div class="catalog-grid" id="catalogGrid"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testimonios-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-label">Lo que dicen</div>
+      <div class="section-title">Clientes felices</div>
+    </div>
+    <div class="testimonios-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Pedí el Good Girl y llegó en perfectas condiciones. El aroma idéntico al original del shopping. Lo recomiendo totalmente."</p>
+        <div class="testi-autor">Martín G.</div>
+        <div class="testi-detail">Mar del Plata · Good Girl 10ML</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Increíble la relación precio-calidad. Probé 3 perfumes distintos sin gastar lo que sale uno entero. Ya sé cuál quiero comprar en full."</p>
+        <div class="testi-autor">Lucía R.</div>
+        <div class="testi-detail">Santa Clara del Mar · Combo 3×5ML</div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Re rápido el envío y la atención fue excelente. Pregunté por WhatsApp y me asesoraron enseguida. Muy buena onda."</p>
+        <div class="testi-autor">Sofía M.</div>
+        <div class="testi-detail">Necochea · L'Interdit 5ML</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ SON LOS DECANTS -->
+<section class="decants-section">
+  <div class="section-inner">
+    <div class="decants-grid">
+      <div class="decants-visual">🧴</div>
+      <div class="decants-text">
+        <div class="section-label">Para los que no saben</div>
+        <div class="section-title">¿Qué son los decants?</div>
+        <p>Un decant es una porción de un perfume original, transferida a un frasco pequeño. No es imitación, no es copia: es el mismo perfume de diseñador, en cantidad menor.</p>
+        <p>La idea es simple: ¿para qué pagar $80.000 un perfume entero si no sabés si te va a gustar? Con un decant de 5ML podés usarlo durante semanas y decidir.</p>
+        <ul class="decants-list">
+          <li>100% originales, sin adulteraciones</li>
+          <li>Fraccionados con atomizadores sellados</li>
+          <li>Ideal para probar antes de comprar full</li>
+          <li>Perfecto para viajes y bolsos</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section class="proceso-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-label">Simple y rápido</div>
+      <div class="section-title">¿Cómo funciona?</div>
+    </div>
+    <div class="proceso-steps">
+      <div class="paso">
+        <div class="paso-num">01</div>
+        <div class="paso-icon">🔍</div>
+        <div class="paso-title">Seleccionás</div>
+        <p class="paso-desc">Explorás el catálogo, elegís tus fragancias y el tamaño que querés.</p>
+      </div>
+      <div class="paso">
+        <div class="paso-num">02</div>
+        <div class="paso-icon">✂️</div>
+        <div class="paso-title">Fraccionamos</div>
+        <p class="paso-desc">Transferimos el perfume original al atomizador con el mayor cuidado.</p>
+      </div>
+      <div class="paso">
+        <div class="paso-num">03</div>
+        <div class="paso-icon">📦</div>
+        <div class="paso-title">Vos elegís</div>
+        <p class="paso-desc">Retiro en Santa Clara del Mar o enviamos a todo el país por correo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="beneficios-section">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-label">Por qué elegirnos</div>
+      <div class="section-title">Beneficios</div>
+    </div>
+    <div class="beneficios-list">
+      <div class="beneficio-item">
+        <div class="beneficio-check">✓</div>
+        <div>
+          <div class="beneficio-title">Perfumes 100% originales</div>
+          <p class="beneficio-desc">Compramos directamente al por mayor. Sin imitaciones, sin engaños.</p>
+        </div>
+      </div>
+      <div class="beneficio-item">
+        <div class="beneficio-check">✓</div>
+        <div>
+          <div class="beneficio-title">Probá sin comprometerte</div>
+          <p class="beneficio-desc">Un 5ML te dura semanas para saber si es tu fragancia favorita.</p>
+        </div>
+      </div>
+      <div class="beneficio-item">
+        <div class="beneficio-check">✓</div>
+        <div>
+          <div class="beneficio-title">Precios accesibles</div>
+          <p class="beneficio-desc">De $8.000 ARS ya accedés a marcas de diseñador de primer nivel.</p>
+        </div>
+      </div>
+      <div class="beneficio-item">
+        <div class="beneficio-check">✓</div>
+        <div>
+          <div class="beneficio-title">Atención personalizada</div>
+          <p class="beneficio-desc">¿No sabés qué elegir? Te asesoramos por WhatsApp según tu gusto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section">
+  <div class="cta-title">¿Listo para oler increíble?</div>
+  <p class="cta-sub">Explorá el catálogo, armá tu combo o consultanos por WhatsApp. Sin vueltas.</p>
+  <div class="cta-buttons">
+    <button class="cta-btn-primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver catálogo completo</button>
+    <a href="https://wa.me/5492236247791?text=Hola%2C%20quiero%20consultar%20sobre%20los%20decants%20%F0%9F%8C%B8" target="_blank" class="cta-btn-secondary">Consultar por WhatsApp</a>
+  </div>
+</section>
 
 <!-- WPP DIRECTO -->
 <a class="wpp-fab" href="https://wa.me/5492236247791?text=Hola%2C%20quiero%20consultar%20sobre%20los%20decants%20%F0%9F%8C%B8" target="_blank" title="Consultanos por WhatsApp">
@@ -643,14 +707,11 @@
       <span class="modal-title">Tu pedido</span>
       <button class="close-btn" onclick="closeCart()">✕</button>
     </div>
-
     <div id="cartItems"></div>
-
     <div class="cart-total">
       <span>Total</span>
-      <span id="cartTotal">$0</span>
+      <span id="cartTotal">$0 ARS</span>
     </div>
-
     <div class="form-section">
       <h3>Tus datos</h3>
       <div class="form-group">
@@ -687,97 +748,71 @@
 
 <script>
   const productos = [
-    {
-      id: 1, nombre: "Scandal", marca: "Jean Paul Gaultier",
+    { id: 1, nombre: "Scandal", marca: "Jean Paul Gaultier", genero: "mujer",
       precios: { "3ML": 9000, "5ML": 14000, "10ML": 23200 },
       img: "PERFUMES/ck-eternity-edt.jpg",
       desc: "Un escándalo de sensualidad. Floral y amaderado, con una base de vetiver y patchouli que lo hacen oscuro y seductor.",
-      notas: ["Rosa", "Gardenia", "Vetiver", "Patchouli"]
-    },
-    {
-      id: 2, nombre: "Scandal (mujer)", marca: "Jean Paul Gaultier",
+      notas: ["Rosa", "Gardenia", "Vetiver", "Patchouli"] },
+    { id: 2, nombre: "Scandal Pour Homme", marca: "Jean Paul Gaultier", genero: "hombre",
       precios: { "3ML": 9000, "5ML": 14000, "10ML": 23200 },
       img: "PERFUMES/ck-eternity-flame.jpg",
-      desc: "Feminidad sin filtros. Miel, gardenia y jengibre crean una fragancia cálida, especiada e irresistible.",
-      notas: ["Miel", "Gardenia", "Jengibre", "Madera"]
-    },
-    {
-      id: 3, nombre: "Le Beau", marca: "Jean Paul Gaultier",
+      desc: "Masculinidad sin filtros. Miel, gardenia y jengibre crean una fragancia cálida, especiada e irresistible.",
+      notas: ["Miel", "Gardenia", "Jengibre", "Madera"] },
+    { id: 3, nombre: "Le Beau", marca: "Jean Paul Gaultier", genero: "hombre",
       precios: { "3ML": 8000, "5ML": 12200, "10ML": 22500 },
       img: "PERFUMES/ck-euphoria.jpg - CK Euphoria.jpg",
       desc: "Fresco, solar y paradisíaco. Coco, tonka y madera blanca evocan playas y cielos abiertos.",
-      notas: ["Coco", "Tonka", "Cedro", "Madera blanca"]
-    },
-    {
-      id: 4, nombre: "Born in Roma Extradose", marca: "Valentino",
+      notas: ["Coco", "Tonka", "Cedro", "Madera blanca"] },
+    { id: 4, nombre: "Born in Roma Extradose", marca: "Valentino", genero: "unisex",
       precios: { "3ML": 15000, "5ML": 20000, "10ML": 32500 },
       img: "PERFUMES/cuba-las-vegas.jpg -.jpg",
       desc: "La Roma moderna hecha perfume. Iris, vainilla y madera crean una fragancia intensa y lujosa con personalidad.",
-      notas: ["Iris", "Vainilla", "Madera", "Musgo"]
-    },
-    {
-      id: 5, nombre: "Erba Pura", marca: "Xerjoff",
+      notas: ["Iris", "Vainilla", "Madera", "Musgo"] },
+    { id: 5, nombre: "Erba Pura", marca: "Xerjoff", genero: "unisex",
       precios: { "3ML": 15700, "5ML": 22500, "10ML": 32000 },
       img: "PERFUMES/cuba-royal.jpg -.jpg",
       desc: "Un jardín de lujo en verano. Cítricos mediterráneos, frutas tropicales y un fondo de almizcle puro y envolvente.",
-      notas: ["Limón", "Frutos tropicales", "Almizcle", "Ámbar"]
-    },
-    {
-      id: 6, nombre: "Devotion", marca: "Dolce & Gabbana",
+      notas: ["Limón", "Frutos tropicales", "Almizcle", "Ámbar"] },
+    { id: 6, nombre: "Devotion", marca: "Dolce & Gabbana", genero: "mujer",
       precios: { "3ML": 9000, "5ML": 13700, "10ML": 23200 },
       img: "PERFUMES/cuba-winner.jpg",
       desc: "Dedicación absoluta a la feminidad. Almendra, neroli y sándalo en una composición cremosa y adictiva.",
-      notas: ["Almendra", "Neroli", "Sándalo", "Vainilla"]
-    },
-    {
-      id: 7, nombre: "Flower", marca: "Kenzo",
+      notas: ["Almendra", "Neroli", "Sándalo", "Vainilla"] },
+    { id: 7, nombre: "Flower", marca: "Kenzo", genero: "mujer",
       precios: { "3ML": 8000, "5ML": 12000, "10ML": 20000 },
       img: "PERFUMES/danielle-boy.jpg",
       desc: "Una flor en medio de la ciudad. Violeta, rosa y vainilla hacen de esta fragancia un clásico atemporal y delicado.",
-      notas: ["Violeta", "Rosa", "Vainilla", "Almizcle blanco"]
-    },
-    {
-      id: 8, nombre: "Good Girl", marca: "Carolina Herrera",
+      notas: ["Violeta", "Rosa", "Vainilla", "Almizcle blanco"] },
+    { id: 8, nombre: "Good Girl", marca: "Carolina Herrera", genero: "mujer",
       precios: { "3ML": 10500, "5ML": 15000, "10ML": 27000 },
       img: "PERFUMES/davidoff-cool-water-parfum.jpg",
       desc: "El dualismo femenino en un frasco icónico. Jazmín y tonka se fusionan en una fragancia oscura, dulce y poderosa.",
-      notas: ["Jazmín", "Tonka", "Cacao", "Tuberosa"]
-    },
-    {
-      id: 9, nombre: "Wanted", marca: "Azzaro",
+      notas: ["Jazmín", "Tonka", "Cacao", "Tuberosa"] },
+    { id: 9, nombre: "Wanted", marca: "Azzaro", genero: "hombre",
       precios: { "3ML": 8000, "5ML": 11000, "10ML": 20000 },
       img: "PERFUMES/davidoff-cool-water.jpg -.jpg",
       desc: "Magnético y audaz. Cardamomo, limón y cedro crean un aura masculina fresca con un fondo cálido y especiado.",
-      notas: ["Cardamomo", "Limón", "Cedro", "Vetiver"]
-    },
-    {
-      id: 10, nombre: "L'Interdit", marca: "Givenchy",
+      notas: ["Cardamomo", "Limón", "Cedro", "Vetiver"] },
+    { id: 10, nombre: "L'Interdit", marca: "Givenchy", genero: "mujer",
       precios: { "3ML": 11000, "5ML": 16000, "10ML": 28000 },
       img: "PERFUMES/fd696a7ce53d39993c19bbcd273f928e.jpg",
       desc: "Lo prohibido tiene un aroma. Pera blanca, jazmín y vetiver negro hacen de esta fragancia un misterio irresistible.",
-      notas: ["Pera blanca", "Jazmín", "Vetiver negro", "Naranja"]
-    },
-    {
-      id: 11, nombre: "Le Male Elixir", marca: "Jean Paul Gaultier",
+      notas: ["Pera blanca", "Jazmín", "Vetiver negro", "Naranja"] },
+    { id: 11, nombre: "Le Male Elixir", marca: "Jean Paul Gaultier", genero: "hombre",
       precios: { "3ML": 10500, "5ML": 15000, "10ML": 27000 },
       img: "PERFUMES/ck-eternity-edt.jpg",
       desc: "La versión más oscura e intensa de Le Male. Lavanda, vainilla y madera ahumada para una masculinidad sin límites.",
-      notas: ["Lavanda", "Vainilla", "Madera ahumada", "Ámbar"]
-    },
-    {
-      id: 13, nombre: "Boca Boca", marca: "Poseidon",
-      precios: { "3ML": 13000, "5ML": 18000, "10ML": 45000 },
-      img: "PERFUMES/boca boca.webp",
-      desc: "Fresco y sensual, Boca Boca combina cítricos vibrantes con un fondo cálido y almizclado que deja huella.",
-      notas: ["Cítrico", "Almizcle", "Madera", "Frescor"]
-    },
-    {
-      id: 12, nombre: "Stronger With You Intensely", marca: "Armani",
+      notas: ["Lavanda", "Vainilla", "Madera ahumada", "Ámbar"] },
+    { id: 12, nombre: "Stronger With You Intensely", marca: "Armani", genero: "hombre",
       precios: { "3ML": 14000, "5ML": 16000, "10ML": 28000 },
       img: "PERFUMES/ck-eternity-flame.jpg",
       desc: "Amor intenso en cada gota. Castaña, lavanda y vainilla crean una calidez envolvente, moderna y romántica.",
-      notas: ["Castaña", "Lavanda", "Vainilla", "Madera"]
-    },
+      notas: ["Castaña", "Lavanda", "Vainilla", "Madera"] },
+    { id: 13, nombre: "Boca Boca", marca: "Poseidon", genero: "unisex",
+      precios: { "3ML": 13000, "5ML": 18000, "10ML": 45000 },
+      img: "PERFUMES/boca boca.webp",
+      desc: "Fresco y sensual, Boca Boca combina cítricos vibrantes con un fondo cálido y almizclado que deja huella.",
+      notas: ["Cítrico", "Almizcle", "Madera", "Frescor"] },
   ];
 
   const MAKI_WPP = "5492236247791";
@@ -785,47 +820,80 @@
   const carrito = [];
   let detailProductId = null;
   let detailMLSeleccionado = null;
+  let filtroActivo = "todos";
+
+  // ── CAROUSEL ───────────────────────────────────────────────
+  let slideActual = 0;
+  const totalSlides = 3;
+  let autoTimer;
+
+  function goTo(n) {
+    slideActual = (n + totalSlides) % totalSlides;
+    document.getElementById("carouselTrack").style.transform = "translateX(-" + (slideActual * 100) + "%)";
+    document.querySelectorAll(".dot").forEach((d, i) => d.classList.toggle("active", i === slideActual));
+  }
+  function next() { goTo(slideActual + 1); resetAuto(); }
+  function prev() { goTo(slideActual - 1); resetAuto(); }
+  function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(() => goTo(slideActual + 1), 5000); }
+
+  function initCarousel() {
+    const dotsEl = document.getElementById("carouselDots");
+    for (let i = 0; i < totalSlides; i++) {
+      const d = document.createElement("div");
+      d.className = "dot" + (i === 0 ? " active" : "");
+      d.onclick = () => { goTo(i); resetAuto(); };
+      dotsEl.appendChild(d);
+    }
+    resetAuto();
+  }
+
+  // ── FILTRO ─────────────────────────────────────────────────
+  function filterBy(genero, btn) {
+    filtroActivo = genero;
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    if (btn) btn.classList.add("active");
+    renderCatalogo();
+    document.getElementById("catalogo").scrollIntoView({ behavior: "smooth" });
+  }
 
   // ── CATÁLOGO ───────────────────────────────────────────────
   function renderCatalogo() {
     const grid = document.getElementById("catalogGrid");
     grid.innerHTML = "";
-    productos.forEach(p => {
+    const lista = filtroActivo === "todos" ? productos : productos.filter(p => p.genero === filtroActivo);
+    lista.forEach(p => {
       const mls = Object.keys(p.precios);
       if (!seleccion[p.id]) seleccion[p.id] = mls[0];
       const precio = p.precios[seleccion[p.id]];
-      const mlBtns = mls.map(ml => `
-        <button class="ml-btn ${seleccion[p.id] === ml ? 'selected' : ''}"
-          onclick="selectML(${p.id}, '${ml}')">${ml}</button>
-      `).join("");
-
+      const mlBtns = mls.map(ml =>
+        '<button class="ml-btn ' + (seleccion[p.id] === ml ? "selected" : "") + '" onclick="selectML(' + p.id + ', \'' + ml + '\')">' + ml + "</button>"
+      ).join("");
       const card = document.createElement("div");
       card.className = "product-card";
-      card.id = `card-${p.id}`;
-      card.innerHTML = `
-        <div class="product-img-wrap" onclick="openDetail(${p.id})">
-          <img src="${p.img}" alt="${p.nombre}" />
-          <span class="lupa">🔍</span>
-        </div>
-        <div class="product-info">
-          <div class="product-name">${p.nombre}</div>
-          <div class="product-brand">${p.marca}</div>
-          <div class="ml-selector">${mlBtns}</div>
-          <div class="product-price" id="price-${p.id}">$${precio.toLocaleString("es-AR")}</div>
-          <button class="add-btn" onclick="agregarAlCarrito(${p.id})">+ Agregar</button>
-        </div>
-      `;
+      card.id = "card-" + p.id;
+      card.innerHTML =
+        '<div class="product-img-wrap" onclick="openDetail(' + p.id + ')">' +
+          '<img src="' + p.img + '" alt="' + p.nombre + '" />' +
+          '<span class="lupa">🔍</span>' +
+        "</div>" +
+        '<div class="product-info">' +
+          '<div class="product-name">' + p.nombre + "</div>" +
+          '<div class="product-brand">' + p.marca + "</div>" +
+          '<div class="ml-selector">' + mlBtns + "</div>" +
+          '<div class="product-price" id="price-' + p.id + '">$' + precio.toLocaleString("es-AR") + " ARS</div>" +
+          '<button class="add-btn" onclick="agregarAlCarrito(' + p.id + ')">+ Agregar</button>' +
+        "</div>";
       grid.appendChild(card);
     });
   }
 
   function selectML(id, ml) {
     seleccion[id] = ml;
-    document.querySelectorAll(`#card-${id} .ml-btn`).forEach(btn => {
+    document.querySelectorAll("#card-" + id + " .ml-btn").forEach(btn => {
       btn.classList.toggle("selected", btn.textContent === ml);
     });
     const p = productos.find(x => x.id === id);
-    document.getElementById(`price-${id}`).textContent = "$" + p.precios[ml].toLocaleString("es-AR");
+    document.getElementById("price-" + id).textContent = "$" + p.precios[ml].toLocaleString("es-AR") + " ARS";
   }
 
   // ── DETALLE ────────────────────────────────────────────────
@@ -834,24 +902,18 @@
     detailProductId = id;
     const mls = Object.keys(p.precios);
     detailMLSeleccionado = seleccion[id] || mls[0];
-
     document.getElementById("detailImg").src = p.img;
     document.getElementById("detailImg").alt = p.nombre;
     document.getElementById("detailNombre").textContent = p.nombre;
     document.getElementById("detailMarca").textContent = p.marca;
     document.getElementById("detailDesc").textContent = p.desc;
-    document.getElementById("detailNotas").innerHTML = p.notas.map(n =>
-      `<span class="nota-tag">${n}</span>`
+    document.getElementById("detailNotas").innerHTML = p.notas.map(n => '<span class="nota-tag">' + n + "</span>").join("");
+    document.getElementById("detailPrecios").innerHTML = mls.map(ml =>
+      '<div class="detail-precio-item ' + (detailMLSeleccionado === ml ? "selected" : "") + '" onclick="selectDetailML(\'' + ml + '\')">' +
+        '<div class="detail-precio-ml">' + ml + "</div>" +
+        '<div class="detail-precio-val">$' + p.precios[ml].toLocaleString("es-AR") + " ARS</div>" +
+      "</div>"
     ).join("");
-
-    document.getElementById("detailPrecios").innerHTML = mls.map(ml => `
-      <div class="detail-precio-item ${detailMLSeleccionado === ml ? 'selected' : ''}"
-        onclick="selectDetailML('${ml}')">
-        <div class="detail-precio-ml">${ml}</div>
-        <div class="detail-precio-val">$${p.precios[ml].toLocaleString("es-AR")}</div>
-      </div>
-    `).join("");
-
     document.getElementById("detailModal").classList.add("open");
   }
 
@@ -862,16 +924,14 @@
     });
   }
 
-  function closeDetail() {
-    document.getElementById("detailModal").classList.remove("open");
-  }
+  function closeDetail() { document.getElementById("detailModal").classList.remove("open"); }
 
   function agregarDesdeDetalle() {
     const p = productos.find(x => x.id === detailProductId);
     carrito.push({ id: p.id, nombre: p.nombre, marca: p.marca, ml: detailMLSeleccionado, precio: p.precios[detailMLSeleccionado] });
     actualizarFAB();
     closeDetail();
-    const btn = document.querySelector(`#card-${p.id} .add-btn`);
+    const btn = document.querySelector("#card-" + p.id + " .add-btn");
     if (btn) { btn.textContent = "✓ Agregado"; btn.style.background = "#2a7a2a"; setTimeout(() => { btn.textContent = "+ Agregar"; btn.style.background = ""; }, 1200); }
   }
 
@@ -881,45 +941,41 @@
     const ml = seleccion[id];
     carrito.push({ id, nombre: p.nombre, marca: p.marca, ml, precio: p.precios[ml] });
     actualizarFAB();
-    const btn = document.querySelector(`#card-${id} .add-btn`);
+    const btn = document.querySelector("#card-" + id + " .add-btn");
     btn.textContent = "✓ Agregado";
     btn.style.background = "#2a7a2a";
     setTimeout(() => { btn.textContent = "+ Agregar"; btn.style.background = ""; }, 1200);
   }
 
-  function eliminarItem(i) {
-    carrito.splice(i, 1);
-    actualizarFAB();
-    renderCartItems();
-  }
+  function eliminarItem(i) { carrito.splice(i, 1); actualizarFAB(); renderCartItems(); }
 
   function actualizarFAB() {
     document.getElementById("cartCount").textContent = carrito.length;
     document.getElementById("cartFab").classList.toggle("visible", carrito.length > 0);
   }
 
-  function openCart()  { document.getElementById("cartModal").classList.add("open"); renderCartItems(); }
+  function openCart() { document.getElementById("cartModal").classList.add("open"); renderCartItems(); }
   function closeCart() { document.getElementById("cartModal").classList.remove("open"); }
 
   function renderCartItems() {
     const container = document.getElementById("cartItems");
     const totalEl = document.getElementById("cartTotal");
     if (carrito.length === 0) {
-      container.innerHTML = `<p style="color:#666;text-align:center;padding:20px 0;">Carrito vacío</p>`;
-      totalEl.textContent = "$0";
+      container.innerHTML = '<p style="color:#666;text-align:center;padding:20px 0;">Carrito vacío</p>';
+      totalEl.textContent = "$0 ARS";
       return;
     }
-    container.innerHTML = carrito.map((item, i) => `
-      <div class="cart-item">
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.nombre}</div>
-          <div class="cart-item-detail">${item.marca} · ${item.ml}</div>
-        </div>
-        <div class="cart-item-price">$${item.precio.toLocaleString("es-AR")}</div>
-        <button class="cart-item-remove" onclick="eliminarItem(${i})">✕</button>
-      </div>
-    `).join("");
-    totalEl.textContent = "$" + carrito.reduce((s, x) => s + x.precio, 0).toLocaleString("es-AR");
+    container.innerHTML = carrito.map((item, i) =>
+      '<div class="cart-item">' +
+        '<div class="cart-item-info">' +
+          '<div class="cart-item-name">' + item.nombre + "</div>" +
+          '<div class="cart-item-detail">' + item.marca + " · " + item.ml + "</div>" +
+        "</div>" +
+        '<div class="cart-item-price">$' + item.precio.toLocaleString("es-AR") + " ARS</div>" +
+        '<button class="cart-item-remove" onclick="eliminarItem(' + i + ')">✕</button>' +
+      "</div>"
+    ).join("");
+    totalEl.textContent = "$" + carrito.reduce((s, x) => s + x.precio, 0).toLocaleString("es-AR") + " ARS";
   }
 
   // ── ENVIAR ─────────────────────────────────────────────────
@@ -930,25 +986,22 @@
     const cp        = document.getElementById("fCp").value.trim();
     const wpp       = document.getElementById("fWpp").value.trim();
     const mail      = document.getElementById("fMail").value.trim();
-    if (!nombre || !direccion || !cp || !wpp || !mail) {
-      alert("Completá todos los campos antes de enviar."); return;
-    }
+    if (!nombre || !direccion || !cp || !wpp || !mail) { alert("Completá todos los campos antes de enviar."); return; }
     const total = carrito.reduce((s, x) => s + x.precio, 0);
-    const lineas = carrito.map(item =>
-      `• ${item.nombre} (${item.marca}) · ${item.ml} — $${item.precio.toLocaleString("es-AR")}`
-    ).join("\n");
+    const lineas = carrito.map(item => "• " + item.nombre + " (" + item.marca + ") · " + item.ml + " — $" + item.precio.toLocaleString("es-AR") + " ARS").join("\n");
     const msg = [
       "*NUEVO PEDIDO — THE NICE SHOT*", "",
-      `*Cliente:* ${nombre}`,
-      `*Dirección:* ${direccion} (CP: ${cp})`,
-      `*WhatsApp:* ${wpp}`,
-      `*Mail:* ${mail}`, "",
+      "*Cliente:* " + nombre,
+      "*Dirección:* " + direccion + " (CP: " + cp + ")",
+      "*WhatsApp:* " + wpp,
+      "*Mail:* " + mail, "",
       "*Productos:*", lineas, "",
-      `*Total: $${total.toLocaleString("es-AR")}*`,
+      "*Total: $" + total.toLocaleString("es-AR") + " ARS*",
     ].join("\n");
-    window.open(`https://wa.me/${MAKI_WPP}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open("https://wa.me/" + MAKI_WPP + "?text=" + encodeURIComponent(msg), "_blank");
   }
 
+  initCarousel();
   renderCatalogo();
 </script>
 </body>
